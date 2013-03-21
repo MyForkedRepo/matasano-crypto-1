@@ -30,9 +30,8 @@ from collections import Counter, defaultdict
 hex_encoded_string = '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'
 encoded_string = hex_encoded_string.decode('hex')
 
-def decode_xor_cipher(book_path):
+def decode_xor_cipher(char_map, encoded_string):
     ''' Brute force a xor cipher '''
-    char_map = get_char_frequency_from_file(book_path)
 
     scores = Counter()
     for char in char_map.keys():
@@ -64,8 +63,12 @@ def compare_character_frequency(possible_map, reference_map):
     '''
 
     # Get the frequency map as a string ordered by most common occuring first
-    possible_map_sorted = ' '.join([x[0] for x in possible_map.most_common()])
-    reference_map_sorted = ' '.join([x[0] for x in reference_map.most_common()])
+    possible_map_sorted = ''.join([x[0] for x in possible_map.most_common()])
+    reference_map_sorted = ''.join([x[0] for x in reference_map.most_common()])
+
+    # Ignore strings which have characters other than reference map
+    if len(possible_map_sorted.strip(reference_map_sorted)) > 0:
+       return 0
 
     matches = 0
     prev_index = reference_map_sorted.find(possible_map_sorted[0])
@@ -78,5 +81,6 @@ def compare_character_frequency(possible_map, reference_map):
     return matches
 
 if __name__ == '__main__':
-    decoded_string, score = decode_xor_cipher('book.txt')
+    reference_map = get_char_frequency_from_file('book.txt')
+    decoded_string, score = decode_xor_cipher(reference_map, encoded_string)
     print decoded_string
