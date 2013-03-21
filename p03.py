@@ -79,3 +79,4 @@ def compare_character_frequency(possible_map, reference_map):
 
 if __name__ == '__main__':
     decoded_string, score = decode_xor_cipher('book.txt')
+    print decoded_string
