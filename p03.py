@@ -39,10 +39,7 @@ def decode_xor_cipher(book_path):
         possible = xor_cipher(encoded_string, char)
         scores[char] = compare_character_frequency(Counter(possible), char_map)
 
-    return xor_cipher(encoded_string, scores.most_common(1)[0][0])
-
-if __name__ == '__main__':
-    print decode_xor_cipher('book.txt')
+    return xor_cipher(encoded_string, scores.most_common(1)[0][0]), scores.most_common(1)[0][1]
 
 # Utility functions
 def string_xor(x, y):
@@ -80,3 +77,5 @@ def compare_character_frequency(possible_map, reference_map):
 
     return matches
 
+if __name__ == '__main__':
+    decoded_string, score = decode_xor_cipher('book.txt')
