@@ -19,7 +19,7 @@ input_string = '''Burning 'em, if you ain't quick and nimble\nI go crazy when I 
 key = 'ICE'
 
 def repeating_key_xor_cipher(input_string, key):
-    pad_length = len(input_string) % 3
+    pad_length = len(input_string) % len(key)
     repeat_factor = len(input_string) / len(key)
 
     repeated_key = key * repeat_factor + key[:pad_length]
