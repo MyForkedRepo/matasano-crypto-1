@@ -26,6 +26,7 @@
 # against the frequency map. The key with the best score is your match.
 
 from collections import Counter, defaultdict
+import string
 
 hex_encoded_string = '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'
 encoded_string = hex_encoded_string.decode('hex')
@@ -38,7 +39,7 @@ def decode_xor_cipher(char_map, encoded_string):
         possible = xor_cipher(encoded_string, char)
         scores[char] = compare_character_frequency(Counter(possible), char_map)
 
-    return xor_cipher(encoded_string, scores.most_common(1)[0][0]), scores.most_common(1)[0][1]
+    return xor_cipher(encoded_string, scores.most_common(1)[0][0]), scores.most_common(1)[0][1], scores.most_common(1)[0][0]
 
 # Utility functions
 def string_xor(x, y):
@@ -66,9 +67,10 @@ def compare_character_frequency(possible_map, reference_map):
     possible_map_sorted = ''.join([x[0] for x in possible_map.most_common()])
     reference_map_sorted = ''.join([x[0] for x in reference_map.most_common()])
 
+    character_set = reference_map_sorted + string.letters + string.digits
     # Ignore strings which have characters other than reference map
-    if len(possible_map_sorted.strip(reference_map_sorted)) > 0:
-       return 0
+    if len(possible_map_sorted.strip(character_set)) > 0:
+        return 0
 
     matches = 0
     prev_index = reference_map_sorted.find(possible_map_sorted[0])
