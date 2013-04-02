@@ -22,7 +22,7 @@ max_score_string = None
 
 for hex_encoded_string in open('3132713/gistfile1.txt').readlines():
     encoded_string = hex_encoded_string.strip().decode('hex')
-    decoded_string, score = decode_xor_cipher(reference_map, encoded_string)
+    decoded_string, score, key = decode_xor_cipher(reference_map, encoded_string)
     
     if score > max_score:
         max_score_string = decoded_string
