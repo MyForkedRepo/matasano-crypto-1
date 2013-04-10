@@ -1,6 +1,6 @@
 ####################################
 ####################################
-# wget --header='User-Agent: Mozilla/5.0' 'http://www.gutenberg.org/cache/epub/35/pg35.txt' -c -O book.txt
+# wget --header='User-Agent: Mozilla/5.0' 'http://www.gutenberg.org/cache/epub/19033/pg19033.txt' -c -O book.txt
 ###################################
 ###################################
 
@@ -39,7 +39,9 @@ def decode_xor_cipher(char_map, encoded_string):
         possible = xor_cipher(encoded_string, char)
         scores[char] = compare_character_frequency(Counter(possible), char_map)
 
-    return xor_cipher(encoded_string, scores.most_common(1)[0][0]), scores.most_common(1)[0][1], scores.most_common(1)[0][0]
+    least_score = scores.most_common()[-1]
+    key, score = least_score[:]
+    return xor_cipher(encoded_string, key), score, key
 
 # Utility functions
 def string_xor(x, y):
@@ -49,40 +51,34 @@ def xor_cipher(string, key):
     return string_xor(len(string) * key, string)
 
 def get_char_frequency_from_string(string):
-    return Counter(string)
+    c = Counter(string)
+    for k, v in c.items():
+        c[k] = v * 1.0 / len(string)
+    return c
 
 def get_char_frequency_from_file(file_name):
     contents = open(file_name).read()
-    return Counter(contents)
+    return get_char_frequency_from_string(contents)
 
 def compare_character_frequency(possible_map, reference_map):
-    ''' A simplified edit distance comparison
-        A score of the string is computed on the basis of how many consecutive pairs
-        of the string are in order - i.e. character 1 of pair occurs more than
-        character 2 of the pair - the number of occurences is the score match of the
-        frequency maps
+    ''' A score of the string is computed based on the sum of absolute difference of character
+        frequencies between the two maps. Least score is the best score
     '''
 
-    # Get the frequency map as a string ordered by most common occuring first
-    possible_map_sorted = ''.join([x[0] for x in possible_map.most_common()])
-    reference_map_sorted = ''.join([x[0] for x in reference_map.most_common()])
-
-    character_set = reference_map_sorted + string.letters + string.digits
+    character_set = ''.join(reference_map.keys()) + string.letters + string.digits
+    possible_map_set = ''.join(possible_map)
     # Ignore strings which have characters other than reference map
-    if len(possible_map_sorted.strip(character_set)) > 0:
-        return 0
+    if len(possible_map_set.strip(character_set)) > 0:
+        return 1000
 
-    matches = 0
-    prev_index = reference_map_sorted.find(possible_map_sorted[0])
-    for char in possible_map_sorted[1:]:
-        index = reference_map_sorted.find(char)
-        if index != -1 and prev_index != -1 and index > prev_index:
-            matches += 1
-        prev_index = index
+    score = 0
+    for char, freq in possible_map.items():
+        reference_freq = reference_map[char]
+        score += abs(reference_freq - freq)
 
-    return matches
+    return score
 
 if __name__ == '__main__':
     reference_map = get_char_frequency_from_file('book.txt')
-    decoded_string, score = decode_xor_cipher(reference_map, encoded_string)
+    decoded_string, score, character = decode_xor_cipher(reference_map, encoded_string)
     print decoded_string

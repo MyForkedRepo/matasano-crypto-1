@@ -17,18 +17,15 @@ from p03 import get_char_frequency_from_file, get_char_frequency_from_string, de
 
 reference_map = get_char_frequency_from_file('book.txt')
 
-max_score = 0
-max_score_string = None
+min_score = 1000
+min_score_string = None
 
 for hex_encoded_string in open('3132713/gistfile1.txt').readlines():
     encoded_string = hex_encoded_string.strip().decode('hex')
     decoded_string, score, key = decode_xor_cipher(reference_map, encoded_string)
-    
-    if score > max_score:
-        max_score_string = decoded_string
-        max_score = score
 
-if max_score != 0:
-    print max_score_string
-else:
-    print "Failed to decode string"
+    if score < min_score:
+        min_score_string = decoded_string
+        min_score = score
+
+print min_score_string

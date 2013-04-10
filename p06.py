@@ -93,7 +93,7 @@ def decode_repeating_key_xor(text, reference_map):
     blocks = []
 
     best_key = None
-    best_score = 0
+    best_score = len(text)
 
     for key_size in key_sizes:
         score = 0
@@ -103,7 +103,7 @@ def decode_repeating_key_xor(text, reference_map):
             decoded_string, block_score, block_key = decode_xor_cipher(reference_map, block)
             score += block_score
             key += block_key
-        if score > best_score:
+        if score < best_score:
             best_score = score
             best_key = key
     
