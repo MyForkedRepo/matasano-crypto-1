@@ -22,6 +22,8 @@ if __name__ == '__main__':
         for line in f.readlines():
             line = line.strip()
             text = line.decode('hex')
+
+            # Divide text into an array of 128 (16 bytes) bits each
             blocks = [text[(start*16) :
                            (start+1)*16] 
                         for start in xrange(len(text)/16)]

@@ -53,8 +53,8 @@
 # block. Put them together and you have the key.
 
 from base64 import b64decode
-from p03 import decode_xor_cipher, get_char_frequency_from_file
-from p05 import repeating_key_xor_cipher
+from p03_decode_xor import decode_xor_cipher, get_char_frequency_from_file
+from p05_repeating_xor import repeating_key_xor_cipher
 from operator import itemgetter
 
 def guess_key_size(text):

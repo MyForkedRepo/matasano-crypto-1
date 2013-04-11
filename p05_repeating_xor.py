@@ -12,7 +12,7 @@
 # Encrypt a bunch of stuff using your repeating-key XOR function. Get a
 # feel for it.
 
-from p03 import string_xor
+from p03_decode_xor import string_xor
 import sys
 
 input_string = '''Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal'''
