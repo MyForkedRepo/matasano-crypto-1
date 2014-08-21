@@ -72,7 +72,6 @@ def guess_key_size(text):
         blocks = [text[start*key_size:
                        (start+1) * key_size] for start in xrange(8)]
 
-
         avg_distance = 0
         for i in xrange(1, len(blocks), 2):
             avg_distance += hamming_distance(blocks[i], blocks[i-1]) * 1.0
@@ -82,7 +81,7 @@ def guess_key_size(text):
 
         distances.append([normalised_distance, key_size])
 
-    sorted_distances = sorted(distances, key = itemgetter(0))
+    sorted_distances = sorted(distances, key=itemgetter(0))
 
     best_keysizes = [i[1] for i in sorted_distances]
     return best_keysizes[:5]
@@ -90,7 +89,6 @@ def guess_key_size(text):
 def decode_repeating_key_xor(text, reference_map):
     ''' Main function to decode a repeating key xor '''
     key_sizes = guess_key_size(text)
-    blocks = []
 
     best_key = None
     best_score = len(text)

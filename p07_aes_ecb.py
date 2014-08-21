@@ -38,4 +38,3 @@ if __name__ == '__main__':
 
     decoded = decode_aes_ecb(text, "YELLOW SUBMARINE")
     print decoded
-

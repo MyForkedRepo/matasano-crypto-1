@@ -13,7 +13,7 @@
 # has been encrypted by single-character XOR. Find it. (Your code from
 # #3 should help.)
 
-from p03_decode_xor import get_char_frequency_from_file, get_char_frequency_from_string, decode_xor_cipher
+from p03_decode_xor import get_char_frequency_from_file, decode_xor_cipher
 
 reference_map = get_char_frequency_from_file('book.txt')
 

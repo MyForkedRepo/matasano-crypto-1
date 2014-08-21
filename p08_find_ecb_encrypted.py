@@ -11,7 +11,6 @@
 # ciphertext.
 
 
-from base64 import b64decode
 from collections import Counter
 
 if __name__ == '__main__':
@@ -24,9 +23,8 @@ if __name__ == '__main__':
             text = line.decode('hex')
 
             # Divide text into an array of 128 (16 bytes) bits each
-            blocks = [text[(start*16) :
-                           (start+1)*16] 
-                        for start in xrange(len(text)/16)]
+            blocks = [text[(start*16):(start+1)*16]
+                      for start in xrange(len(text)/16)]
 
             block_count = Counter()
             for block in blocks:
@@ -43,4 +41,3 @@ if __name__ == '__main__':
                 best_match_line = line
 
     print best_match_line
-                

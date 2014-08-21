@@ -25,7 +25,7 @@
 # b. Evaluate each potential key by scoring the resulting plaintext
 # against the frequency map. The key with the best score is your match.
 
-from collections import Counter, defaultdict
+from collections import Counter
 import string
 
 hex_encoded_string = '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'
@@ -45,7 +45,7 @@ def decode_xor_cipher(char_map, encoded_string):
 
 # Utility functions
 def string_xor(x, y):
-    return ''.join([chr(ord(a) ^ ord(b)) for a, b in zip(x,y)])
+    return ''.join([chr(ord(a) ^ ord(b)) for a, b in zip(x, y)])
 
 def xor_cipher(string, key):
     return string_xor(len(string) * key, string)

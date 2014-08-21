@@ -23,7 +23,7 @@ def repeating_key_xor_cipher(input_string, key):
     repeat_factor = len(input_string) / len(key)
 
     repeated_key = key * repeat_factor + key[:pad_length]
-    
+
     return string_xor(input_string, repeated_key)
 
 if __name__ == '__main__':
